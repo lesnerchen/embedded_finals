@@ -249,8 +249,13 @@ float yaw, pitch, roll;
 class MPU9255 {
 private:
     float sample_rate;
+    I2C* m_i2c_obj;
 protected:
 public:
+    MPU9255(I2C* i2c_obj) : m_i2c_obj(i2c_obj)
+    {
+
+    };
     //===================================================================================================================
     //====== Set of useful function to access acceleratio, gyroscope, and temperature data
     //===================================================================================================================
@@ -271,7 +276,7 @@ public:
         char data_write[2];
         data_write[0] = subAddress;
         data_write[1] = data;
-        i2c.write(address, data_write, 2, 0);
+        m_i2c_obj->write(address, data_write, 2, 0);
     }
 
     char readByte(uint8_t address, uint8_t subAddress)
@@ -285,8 +290,8 @@ public:
             char data[1]; // `data` will store the register data     
             char data_write[1];
             data_write[0] = subAddress;
-            i2c.write(address, data_write, 1, 1); // no stop
-            i2c.read(address, data, 1, 0);
+            m_i2c_obj->write(address, data_write, 1, 1); // no stop
+            m_i2c_obj->read(address, data, 1, 0);
             return data[0];
         }
     }
@@ -302,8 +307,8 @@ public:
             char data[14];
             char data_write[1];
             data_write[0] = subAddress;
-            i2c.write(address, data_write, 1, 1); // no stop
-            i2c.read(address, data, count, 0);
+            m_i2c_obj->write(address, data_write, 1, 1); // no stop
+            m_i2c_obj->read(address, data, count, 0);
             for (int ii = 0; ii < count; ii++) {
                 dest[ii] = data[ii];
             }
@@ -338,7 +343,6 @@ public:
         }
     }
 
-
     void getGres() {
         switch (Gscale)
         {
@@ -360,7 +364,6 @@ public:
         }
     }
 
-
     void getAres() {
         switch (Ascale)
         {
@@ -381,7 +384,6 @@ public:
             break;
         }
     }
-
 
     void readAccelData(float *ax, float *ay, float *az)
     {
@@ -455,7 +457,6 @@ public:
         return ((float)tempCount) / 333.87f + 21.0f;  // Temperature in degrees Centigrade
     }
 
-
     void resetMPU9255() {
         // reset device
         writeByte(MPU9255_ADDRESS, PWR_MGMT_1, 0x80); // Write a one to bit 7 reset bit; toggle reset device
@@ -483,7 +484,6 @@ public:
         writeByte(AK8963_ADDRESS, AK8963_CNTL, Mscale << 4 | Mmode); // Set magnetometer data resolution and sample ODR
         wait(0.01);
     }
-
 
     void initMPU9255() {
         // Initialize MPU9255 device
@@ -679,7 +679,6 @@ public:
         dest2[2] = (float)accel_bias[2] / (float)accelsensitivity;
     }
 
-
     // Accelerometer and gyroscope self test; check calibration wrt factory settings
     void MPU9255SelfTest(float * destination) // Should return percent deviation from factory trim values, +/- 14 or less deviation is a pass
     {
@@ -824,7 +823,6 @@ public:
         return readByte(MPU9255_ADDRESS, INT_STATUS) & 0x01;
     }
 
-
     // Implementation of Sebastian Madgwick's "...efficient orientation filter for... inertial/magnetic sensor arrays"
     // (see http://www.x-io.co.uk/category/open-source/ for examples and more details)
     // which fuses acceleration and rotation rate to produce a quaternion-based estimate of relative
@@ -941,7 +939,6 @@ public:
             while (1);
         }
     }
-
 
     void SensorFusion()
     {

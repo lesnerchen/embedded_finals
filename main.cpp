@@ -11,8 +11,8 @@ int X0, X1, X2, X3, X4, X10, X11, X12;
 
 /*9-axis*/
 Serial pc(SERIAL_TX, SERIAL_RX);
-I2C i2c(I2C_SDA, I2C_SCL);
-MPU9255 mpu9255;
+I2C i2csda(I2C_SDA, I2C_SCL);
+MPU9255 mpu9255(&i2csda);
 DigitalOut led(LED1);
 Timer t;
 

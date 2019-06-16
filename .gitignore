@@ -1,5 +1,7 @@
 .hg/
 mbed/
+BUILD/
+DebugConfig/
 *.html
 *.bld
 *.uvoptx
