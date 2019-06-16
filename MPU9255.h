@@ -210,7 +210,7 @@ uint8_t Smplrt_div = SMPLRT_DIV_200Hz;	 //sample_rate = Internal_Sample_Rate / (
 
 float aRes, gRes, mRes;      // scale resolutions per LSB for the sensors
 
-extern I2C i2c;
+extern I2C i2csda, i2csda_2;
 extern Serial pc;
 extern DigitalOut led;
 extern Timer t;
