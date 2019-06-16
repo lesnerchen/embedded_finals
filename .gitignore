@@ -1,0 +1,6 @@
+.hg/
+mbed/
+*.html
+*.bld
+*.uvoptx
+*.uvprojx
