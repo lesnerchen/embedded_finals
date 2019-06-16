@@ -162,7 +162,9 @@
 #define MPU9255_ADDRESS 0x69<<1  // Device address when ADO = 1
 #else
 #define MPU9255_ADDRESS 0x68<<1  // Device address when ADO = 0
-#endif  
+#endif
+#define MPU9255_ADDRESS_MASTER 0x68<<1
+#define MPU9255_ADDRESS_SLAVE 0x69<<1
 
 // Set initial input parameters
 enum Ascale {
@@ -253,7 +255,8 @@ private:
     unsigned char m_mpu_address;
 protected:
 public:
-    MPU9255(I2C* i2c_obj, const bool& flag) : m_i2c_obj(i2c_obj), m_mpu_address(MPU9255_ADDRESS + flag)
+    MPU9255(I2C* i2c_obj, const bool& flag)
+        : m_i2c_obj(i2c_obj), m_mpu_address(flag ? MPU9255_ADDRESS_MASTER : MPU9255_ADDRESS_SLAVE)
     {
 
     };
