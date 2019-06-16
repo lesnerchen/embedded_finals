@@ -22,7 +22,7 @@ int main()
     X0 = 1;
 
     pc.baud(9600);
-    i2c.frequency(400000);  // use fast (400 kHz) I2C  
+    i2csda.frequency(400000);  // use fast (400 kHz) I2C  
     t.start();
     mpu9255.setting();
 
