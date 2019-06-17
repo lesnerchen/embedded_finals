@@ -3,7 +3,8 @@
 
 #include "mbed.h"
 #include "math.h"
-
+DigitalOut LED_Red(LED3);
+DigitalOut LED_Yellow(LED1);
 // See also MPU-9255 Register Map and Descriptions, Revision 4.0, RM-MPU-9255A-00, Rev. 1.4, 9/9/2013 for registers not listed in 
 // above document; the MPU9255 and MPU9150 are virtually identical but the latter has a different register map
 //
@@ -918,12 +919,23 @@ public:
 
     void PrintSensorValue()
     {
-        printf(" ax = %f  , ay = %f  , az = %f  g\n\r", ax, ay, az);
-        printf(" gx = %f, gy = %f, gz = %f  deg/s\n\r", gx, gy, gz);
-        printf(" mx = %f, my = %f, mz = %f  mG\n\r", mx, my, mz);
+        //LED_Yellow =false;
+		LED_Red    =false;
+	    //printf(" ax = %f  , ay = %f  , az = %f  g\n\r", ax, ay, az);
+        printf("  gx = %.2f, gy = %.2f, gz = %.2f  deg/s       \n\r", gx, gy, gz);
+        //printf(" mx = %f, my = %f, mz = %f  mG\n\r", mx, my, mz);
         // printf(" temperature = %f  C\n\r", temperature); 
-        printf(" Orientation(yaw, pitch, roll): %f %f %f\n\r", yaw, pitch, roll);
-        printf(" ------------------------- \n\r");
+        printf("  Orientation(yaw, pitch, roll): %.2f %.2f %.2f \n\r", yaw, pitch, roll);
+		printf("  ======================Result=======================\n\r");	
+		if(pitch <= -40){
+		    LED_Red = true;
+			printf("  =                  Wrong posture                  =\n\r");					
+		}else{
+			//LED_Yellow =true;
+			printf("  =                 Correct posture                 =\n\r");					
+		}
+        printf("  ===================================================  \n\r");
+		printf("\r\n");			
     }
 
     void setting()
