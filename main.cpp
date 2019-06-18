@@ -13,8 +13,8 @@ int X0, X1, X2, X3, X4, X10, X11, X12;
 Serial pc(SERIAL_TX, SERIAL_RX);
 I2C i2csda(I2C_SDA, I2C_SCL);
 I2C i2csda_2(I2C2_SDA, I2C2_SCL);
-//MPU9255 mpu9255(&i2csda, true);
-MPU9255 mpu9255_1(&i2csda_2, true);	//&i2csda_2
+MPU9255 mpu9255(&i2csda, true);
+//MPU9255 mpu9255_1(&i2csda_2, true);	//&i2csda_2
 //MPU9255 mpu9255(&i2csda_2, true);	//&i2csda_2
 
 DigitalOut led(LED1);
@@ -29,8 +29,8 @@ int main()
     i2csda.frequency(400000);  // use fast (400 kHz) I2C  
 		i2csda_2.frequency(400000);
     t.start();
-    //mpu9255.setting();
-		mpu9255_1.setting();
+    mpu9255.setting();
+		//mpu9255_1.setting();
 
     while (1)
     {
@@ -69,8 +69,8 @@ void grafcet()
     //printf("X0 = %d , X1 = %d , X2 = %d , X3 = %d, X4 = %d, X10 = %d, X11 = %d\r\n", X0, X1, X2, X3, X4, X10, X11);
     //mpu9255.PrintSensorValue();
 
-    //mpu9255.SensorFusion();
-		mpu9255_1.SensorFusion();
+    mpu9255.SensorFusion();
+		//mpu9255_1.SensorFusion();
 }
 
 void grafcet1()

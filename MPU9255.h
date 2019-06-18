@@ -5,6 +5,8 @@
 #include "math.h"
 DigitalOut LED_Red(LED3);
 DigitalOut LED_Yellow(LED1);
+int iTimes=0;
+double  dIni_Yaw, dIni_Pitch, dIni_Roll;
 // See also MPU-9255 Register Map and Descriptions, Revision 4.0, RM-MPU-9255A-00, Rev. 1.4, 9/9/2013 for registers not listed in 
 // above document; the MPU9255 and MPU9150 are virtually identical but the latter has a different register map
 //
@@ -920,22 +922,38 @@ public:
     void PrintSensorValue()
     {
         //LED_Yellow =false;
-		LED_Red    =false;
-	    //printf(" ax = %f  , ay = %f  , az = %f  g\n\r", ax, ay, az);
-        printf("  gx = %.2f, gy = %.2f, gz = %.2f  deg/s       \n\r", gx, gy, gz);
+			  LED_Red    =false;
+			  //printf(" ax = %f  , ay = %f  , az = %f  g\n\r", ax, ay, az);
+        
         //printf(" mx = %f, my = %f, mz = %f  mG\n\r", mx, my, mz);
-        // printf(" temperature = %f  C\n\r", temperature); 
+        //Initial values
+				if(iTimes==0)
+				{
+					dIni_Yaw=yaw;
+					dIni_Pitch=pitch;
+					dIni_Roll=roll;
+				}
+				iTimes++;
+
+				printf("  ======================Times========================\n\r");
+				printf("  %d times\r\n",iTimes);
+				printf("  gx = %.2f, gy = %.2f, gz = %.2f  deg/s       \n\r", gx, gy, gz);
+        printf("  Initial    (yaw, pitch, roll): %.2f %.2f %.2f \n\r", dIni_Yaw, dIni_Pitch, dIni_Roll);
         printf("  Orientation(yaw, pitch, roll): %.2f %.2f %.2f \n\r", yaw, pitch, roll);
-		printf("  ======================Result=======================\n\r");	
-		if(pitch <= -40){
-		    LED_Red = true;
-			printf("  =                  Wrong posture                  =\n\r");					
-		}else{
-			//LED_Yellow =true;
-			printf("  =                 Correct posture                 =\n\r");					
-		}
+        printf("  Difference (yaw, pitch, roll): %.2f %.2f %.2f \n\r", yaw-dIni_Yaw, pitch-dIni_Pitch, roll-dIni_Roll);		
+				printf("  ======================Result=======================\n\r");	
+			  if(pitch <= -40)
+				{
+					LED_Red = true;
+					printf("  =                  Wrong posture                  =\n\r");					
+				}
+				else
+				{
+					//LED_Yellow =true;
+					printf("  =                 Correct posture                 =\n\r");					
+				}
         printf("  ===================================================  \n\r");
-		printf("\r\n");			
+				printf("\r\n");				
     }
 
     void setting()

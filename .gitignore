@@ -6,3 +6,5 @@ DebugConfig/
 *.bld
 *.uvoptx
 *.uvprojx
+Nucleo_printf.*
+*.TMP
